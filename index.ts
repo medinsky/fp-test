@@ -12,6 +12,18 @@ function pow(a: number, n: number) {
   return res;
 }
 
+function calc(a: number, n: number, result: number) {
+  return isOdd(n)
+    ? {
+        res: multiply(a, result),
+        n: n - 1
+      }
+    : {
+        a: multiply(a, a),
+        n: devideEven(n)
+      };
+}
+
 function isOdd(n: number): boolean {
   return n % 2 === 1;
 }
