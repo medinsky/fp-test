@@ -47,5 +47,49 @@ function spread(n: number, result: boolean[] = []) {
   }
 }
 
+function exp(a, n) {
+  if (n === 0) {
+      return 1;
+  } else if (n === 1) {
+      return a;
+  } else if (isOdd(n)) {
+      return a * exp(multiply(a, a), devideEven(n - 1))
+  } else {
+      return exp(multiply(a, a), devideEven(n));
+  }
+}
 
-console.log(powAsSpread(2, 0));
+const t0 = new Date().getMilliseconds();
+for (let i = 0; i < 100000; i++) {
+  powAsSpread(2, 103);
+}
+console.log(powAsSpread(2, 103));
+const t1 = new Date().getMilliseconds();
+console.log(`MY FUNC: ${t1 - t0}`);
+
+
+const t2 = new Date().getMilliseconds();
+for (let i = 0; i < 100000; i++) {
+  Math.pow(2, 103);
+}
+console.log(Math.pow(2, 103));
+const t3 = new Date().getMilliseconds();
+console.log(`JS FUNC: ${t3 - t2}`);
+
+
+const t4 = new Date().getMilliseconds();
+for (let i = 0; i < 100000; i++) {
+  pow(2, 103);
+}
+console.log(pow(2, 103));
+const t5 = new Date().getMilliseconds();
+console.log(`MY2 FUNC: ${t5 - t4}`);
+
+
+const t6 = new Date().getMilliseconds();
+for (let i = 0; i < 100000; i++) {
+  exp(2, 103);
+}
+console.log(exp(2, 103));
+const t7 = new Date().getMilliseconds();
+console.log(`MY3 FUNC: ${t7 - t6}`);
