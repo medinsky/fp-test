@@ -32,24 +32,17 @@ function pow(a, n) {
 function spread(n, result) {
     if (result === void 0) { result = []; }
     if (n === 1) {
-        console.log(result);
         return result;
     }
     else if (isOdd(n)) {
+        result.push(true);
         return spread(n - 1, result);
     }
     else {
-        result.push([2]);
+        result.push(false);
         return spread(devideEven(n), result);
     }
 }
-var arrPow = function (n, exp) { return isMultiplierExists(exp) ? (Math.pow(n, exp[0])) * n : Math.pow(n, exp[0]); };
-var isMultiplierExists = function (exp) { console.log(exp.length > 1); return exp.length > 1; };
-var powAsSpread = function (n, exp) { return spread(exp).reduceRight(function (result, item) {
-    console.log("result: " + result);
-    console.log("item: " + item);
-    var powed = arrPow(result, item);
-    console.log("powed: " + powed);
-    return powed;
-}, n); };
-console.log(powAsSpread(2, 9));
+var squareOrMultiply = function (isOdd, n, result) { return isOdd ? result * n : Math.pow(result, 2); };
+var powAsSpread = function (n, exp) { return exp === 0 ? 1 : spread(exp).reduceRight(function (result, item) { return squareOrMultiply(item, n, result); }, n); };
+console.log(powAsSpread(2, 0));
