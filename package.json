@@ -41,5 +41,6 @@
       "fp/no-valueof-field": "error",
       "no-var": "error"
     }
-  }
+  },
+  "dependencies": {}
 }

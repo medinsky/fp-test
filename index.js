@@ -1,87 +1,105 @@
-var isOdd = function (n) { return n % 2 === 1; };
+var k = '960939379918958884971672962127852754715004339660129306651505519271702802395266424689642842174350718121267153782770623355993237280874144307891325963941337723487857735749823926629715517173716995165232890538221612403238855866184013235585136048828693337902491454229288667081096184496091705183454067827731551705405381627380967602565625016981482083418783163849115590225610003652351370343874461848378737238198224849863465033159410054974700593138339226497249461751545728366702369745461014655997933798537483143786841806593422227898388722980000748404719';
+var a = '1234567';
+var b = '6534';
+var castNumberAsArray = function (n) { return n.split(''); };
 var multiply = function (a, b) { return a * b; };
-var devideEven = function (n) { return n / 2; };
-var square = function (n) { return multiply(n, n); };
-var squareOrMultiply = function (isOdd, n, result) { return isOdd ? result * n : Math.pow(result, 2); };
-var powAsSpread = function (n, exp) { return exp === 0 ? 1 : spread(exp).reduceRight(function (result, item) { return squareOrMultiply(item, n, result); }, n); };
-var calc = function (a, n, result) {
-    return isOdd(n)
-        ? {
-            result: multiply(a, result),
-            n: n - 1
+function bigMultiply(a, b) {
+    var arrA = castNumberAsArray(a);
+    var arrB = castNumberAsArray(b);
+    var multiplierMatrix = arrMultiply(arrA, arrB);
+    console.log(multiplierMatrix);
+}
+function arrMultiply(arrA, arrB) {
+    var arrC = [];
+    arrB.forEach(function (bNumber, index) {
+        arrA.forEach(function (aNumber) {
+            if (typeof arrC[index] === 'undefined') {
+                arrC[index] = [];
+                for (var i = 0; i < index; i++) {
+                    arrC[index].push(0);
+                }
+            }
+            arrC[index].push(multiply(+bNumber, +aNumber));
+        });
+    });
+    return addMatrixZeros(arrC.reverse());
+}
+function addMatrixZeros(matrix) {
+    var maxRowLength = matrix[0].length;
+    return matrix.map(function (row) {
+        for (var i = row.length; i < maxRowLength; i++) {
+            row[i] = 0;
         }
-        : {
-            a: multiply(a, a),
-            n: devideEven(n)
-        };
+        return row;
+    });
+}
+function slamMatrix(matrix) {
+}
+bigMultiply(a, b);
+/*
+const isOdd = (n: number): boolean => n % 2 === 1;
+
+
+
+const devideEven = (n: number): number => n / 2;
+
+const square = (n: number): number => multiply(n, n);
+
+const squareOrMultiply = (isOdd: boolean, n: number, result: number) => isOdd ? multiply(result, n) : square(result);
+
+const powAsSpread = (n: number, exp: number) => exp === 0 ? 1 : spread(exp).reduceRight((result, item) => squareOrMultiply(item, n, result), n);
+
+const calc = (a: number, n: number, result: number) => {
+  if (isOdd(n)) {
+    return {
+      result: multiply(a, result),
+      n: n - 1
+    };
+  } else {
+    return {
+      a: multiply(a, a),
+      n: devideEven(n)
+    }
+  }
 };
-function pow(a, n) {
-    var result = 1;
-    while (n !== 0) {
-        if (isOdd(n)) {
-            result = multiply(a, result);
-            n = n - 1;
-        }
-        else {
-            a = multiply(a, a);
-            n = devideEven(n);
-        }
+
+function pow(a: number, n: number) {
+  let result: number = 1;
+  while (n !== 0) {
+    if (isOdd(n)) {
+      result = multiply(a, result);
+      n = n - 1;
+    } else {
+      a = multiply(a, a);
+      n = devideEven(n);
     }
+  }
+  return result;
+}
+
+function spread(n: number, result: boolean[] = []) {
+  if (n === 1) {
+    console.log(result.length);
     return result;
+  } else if (isOdd(n)) {
+    result.push(true);
+    return spread(n - 1, result);
+  } else {
+    result.push(false);
+    return spread(devideEven(n), result);
+  }
 }
-function spread(n, result) {
-    if (result === void 0) { result = []; }
-    if (n === 1) {
-        return result;
-    }
-    else if (isOdd(n)) {
-        result.push(true);
-        return spread(n - 1, result);
-    }
-    else {
-        result.push(false);
-        return spread(devideEven(n), result);
-    }
-}
+
 function exp(a, n) {
-    if (n === 0) {
-        return 1;
-    }
-    else if (n === 1) {
-        return a;
-    }
-    else if (isOdd(n)) {
-        return a * exp(multiply(a, a), devideEven(n - 1));
-    }
-    else {
-        return exp(multiply(a, a), devideEven(n));
-    }
+  if (n === 0) {
+    return 1;
+  } else if (n === 1) {
+    return a;
+  } else if (isOdd(n)) {
+    return a * exp(multiply(a, a), devideEven(n - 1))
+  } else {
+    return exp(multiply(a, a), devideEven(n));
+  }
 }
-var t0 = new Date().getMilliseconds();
-for (var i = 0; i < 100000; i++) {
-    powAsSpread(2, 103);
-}
-console.log(powAsSpread(2, 103));
-var t1 = new Date().getMilliseconds();
-console.log("MY FUNC: " + (t1 - t0));
-var t2 = new Date().getMilliseconds();
-for (var i = 0; i < 100000; i++) {
-    Math.pow(2, 103);
-}
-console.log(Math.pow(2, 103));
-var t3 = new Date().getMilliseconds();
-console.log("JS FUNC: " + (t3 - t2));
-var t4 = new Date().getMilliseconds();
-for (var i = 0; i < 100000; i++) {
-    pow(2, 103);
-}
-console.log(pow(2, 103));
-var t5 = new Date().getMilliseconds();
-console.log("MY2 FUNC: " + (t5 - t4));
-var t6 = new Date().getMilliseconds();
-for (var i = 0; i < 100000; i++) {
-    exp(2, 103);
-}
-console.log(exp(2, 103));
-var t7 = new Date().getMilliseconds();
-console.log("MY3 FUNC: " + (t7 - t6));
+
+powAsSpread(2, 1234567891234560000);*/ 
