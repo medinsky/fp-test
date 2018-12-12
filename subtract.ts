@@ -1,4 +1,5 @@
 import { numToReversedArr } from "./multiply";
+import { type } from "os";
 
 export const subtract = (a: string, b: string): string => {
   const { a: first, b: second } = swapDesc(a, b);
@@ -16,10 +17,30 @@ export const subtract = (a: string, b: string): string => {
     resultRArr.push(sum);
   }
 
-  const result = resultRArr.reverse().join('');
-  const sign = swapHappened && result !== '0' ? '-' : '';
+  const resultArr = [...resultRArr].reverse();
 
-  return `${sign}${result}`;
+  const number = arrToNum(trimZeros(resultArr));
+
+  const sign = swapHappened && number !== '0' ? '-' : '';
+
+  return `${sign}${number}`;
+}
+
+const arrToNum = (numberArr: string[]): string => numberArr.join('');
+
+const trimZeros = (numberArr: string[]): string[] => {
+  const firstNotZeroIdx = firstNotZeroIndex(numberArr);
+  return typeof firstNotZeroIdx === 'undefined'
+    ? ['0']
+    : numberArr.slice(firstNotZeroIdx);
+}
+
+const firstNotZeroIndex = (numberArr: string[]): number => {
+  for (let i = 0; i < numberArr.length; i++) {
+    if (numberArr[i] !== '0') {
+      return i;
+    }
+  }
 }
 
 const laydownCol = (first: string, second: string): string => {

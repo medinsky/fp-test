@@ -5,10 +5,5 @@ const k = '960939379918958884971672962127852754715004339660129306651505519271702
 const a = '4';
 const b = '2';
 
-console.log(k.length);
-console.time("a");
-const mr = multiply('2', '3');
-console.log(mr);
-console.log(mr.length);
-console.timeEnd("a");
-console.log(subtract(k, '1'));
+console.log(multiply('2', '3'));
+console.log(subtract(k, '9'));
