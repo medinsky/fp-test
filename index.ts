@@ -6,6 +6,6 @@ const k = '960939379918958884971672962127852754715004339660129306651505519271702
 const a = '4';
 const b = '2';
 
-console.log(multiply('2', '3'));
-console.log(subtractDescByModule('100', '25'));
-console.log(add('100', '25'));
+console.log(multiply(k, '3'));
+console.log(subtractDescByModule(k, '2'));
+console.log(add(k, '2'));

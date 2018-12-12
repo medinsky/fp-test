@@ -25,9 +25,9 @@ export const subtractDescByModule = (a: string, b: string): string => {
   return `${sign}${number}`;
 }
 
-const arrToNum = (numberArr: string[]): string => numberArr.join('');
+export const arrToNum = (numberArr: string[]): string => numberArr.join('');
 
-const trimZeros = (numberArr: string[]): string[] => {
+export const trimZeros = (numberArr: string[]): string[] => {
   const firstNotZeroIdx = firstNotZeroIndex(numberArr);
   return typeof firstNotZeroIdx === 'undefined'
     ? ['0']
@@ -69,7 +69,7 @@ interface SwapModuloDesc {
   b: string
 }
 
-const swapModDesc = (first: string, second: string): SwapModuloDesc => {
+export const swapModDesc = (first: string, second: string): SwapModuloDesc => {
   const modFirst = takeMod(first);
   const modSecond = takeMod(second);
   return isSecondBigger(modFirst, modSecond)
@@ -82,4 +82,4 @@ const swapModDesc = (first: string, second: string): SwapModuloDesc => {
     }
 }
 
-const takeMod = (number: string): string => number.replace('-', '');
+export const takeMod = (number: string): string => number.replace('-', '');
