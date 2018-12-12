@@ -1,8 +1,3 @@
-const isOdd = (number: number | string): boolean => {
-    const strNumber = typeof number === 'number' ? number.toString() : number;
-    return +strNumber[strNumber.length - 1] % 2 === 1;
-}
-
 export const multiply = (a: string | number, b: string | number): string => {
     if (a.toString() === '0' || b.toString() === '0') {
         return '0';
