@@ -1,8 +1,7 @@
 import { numToReversedArr } from "./multiply";
-import { type } from "os";
 
-export const subtract = (a: string, b: string): string => {
-  const { a: first, b: second } = swapDesc(a, b);
+export const subtractDescByModule = (a: string, b: string): string => {
+  const { a: first, b: second } = swapModDesc(a, b);
   const swapHappened = first === b;
   const firstRArr = numToReversedArr(first);
   const secondRArr = numToReversedArr(second);
@@ -65,18 +64,22 @@ const isSecondBigger = (a: string, b: string): boolean => {
   return bLength > aLength;
 };
 
-interface SwapDesc {
+interface SwapModuloDesc {
   a: string,
   b: string
 }
 
-const swapDesc = (firstValue: string, secondValue: string): SwapDesc => {
-  return isSecondBigger(firstValue, secondValue)
+const swapModDesc = (first: string, second: string): SwapModuloDesc => {
+  const modFirst = takeMod(first);
+  const modSecond = takeMod(second);
+  return isSecondBigger(modFirst, modSecond)
     ? {
-      a: secondValue,
-      b: firstValue
+      a: modSecond,
+      b: modFirst
     } : {
-      a: firstValue,
-      b: secondValue
+      a: modFirst,
+      b: modSecond
     }
 }
+
+const takeMod = (number: string): string => number.replace('-', '');
