@@ -1,6 +1,10 @@
-export const multiply = (a: string | number, b: string | number): string => {
-    if (a.toString() === '0' || b.toString() === '0') {
+export const multiply = (a: string, b: string): string => {
+    if (a === '0' || b === '0') {
         return '0';
+    } else if (a === '1') {
+        return b;
+    } else if (b === '1') {
+        return a;
     }
 
     const aArr: string[] = numToReversedArr(a);
@@ -10,9 +14,9 @@ export const multiply = (a: string | number, b: string | number): string => {
     return shiftStack(stack).reverse().join('');
 }
 
-const numToReversedArr = (number: string | number): string[] => numToArray(number).reverse();
+const numToReversedArr = (number: string): string[] => numToArray(number).reverse();
 
-const numToArray = (number: string | number): string[] => (typeof number === 'number' ? number.toString() : number).split('');
+const numToArray = (number: string): string[] => number.split('');
 
 const multiplyArrays = (aArr: string[], bArr: string[]): number[] => {
     const stack = [];

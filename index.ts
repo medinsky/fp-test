@@ -5,5 +5,5 @@ const k = '960939379918958884971672962127852754715004339660129306651505519271702
 const a = '123456';
 const b = '6534';
 
-//console.log(multiply(a, b));
+console.log(multiply(a, b));
 console.log(subtract(a, b));

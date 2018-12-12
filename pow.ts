@@ -44,4 +44,4 @@ function exp(a, n) {
   } else {
     return exp(multiply(a, a), devideEven(n));
   }
-}
+}*/

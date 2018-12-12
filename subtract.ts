@@ -1,11 +1,7 @@
-export const subtract = (a: string | number, b: string | number): string => {
-  if (typeof a === 'number' && typeof b === 'number') {
-    return (a - b).toString();
-  } else if (+a !== Infinity && +b !== Infinity) {
-    return (+a - +b).toString();
-  } else {
-    return subtractStrings(a.toString(), b.toString());
-  }
+export const subtract = (a: string, b: string): string => {
+  return (+a !== Infinity && +b !== Infinity)
+    ? (+a - +b).toString()
+    : subtractStrings(a, b);
 }
 
 const subtractStrings = (a: string, b: string): string => {
