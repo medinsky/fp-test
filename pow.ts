@@ -1,5 +1,5 @@
 import { multiply } from './multiply';
-import { subtract } from './subtract';
+import { subtractDescByModule } from './subtract';
 
 const isOdd = (number: number | string): boolean => {
   const strNumber = typeof number === 'number' ? number.toString() : number;
@@ -11,7 +11,7 @@ export const pow = (a: string, n: string) => {
   while (n !== '0') {
     if (isOdd(n)) {
       result = multiply(a, result);
-      n = subtract(n, 1);
+      n = subtractDescByModule(n, '1');
     } else {
       a = multiply(a, a);
       //n = devideEven(n);
