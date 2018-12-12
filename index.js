@@ -1,71 +1,40 @@
 var k = '960939379918958884971672962127852754715004339660129306651505519271702802395266424689642842174350718121267153782770623355993237280874144307891325963941337723487857735749823926629715517173716995165232890538221612403238855866184013235585136048828693337902491454229288667081096184496091705183454067827731551705405381627380967602565625016981482083418783163849115590225610003652351370343874461848378737238198224849863465033159410054974700593138339226497249461751545728366702369745461014655997933798537483143786841806593422227898388722980000748404719';
-var a = '1234567';
+var a = '123456';
 var b = '6534';
-var castNumberAsArray = function (n) { return n.split(''); };
-var multiply = function (a, b) { return a * b; };
-function bigMultiply(a, b) {
-    var arrA = castNumberAsArray(a);
-    var arrB = castNumberAsArray(b);
-    var multiplierMatrix = arrMultiply(arrA, arrB);
-    console.log(multiplierMatrix);
+function isOdd(number) {
+    var strNumber = typeof number === 'number' ? number.toString() : number;
+    return +strNumber[strNumber.length - 1] % 2 === 1;
 }
-function arrMultiply(arrA, arrB) {
-    var arrC = [];
-    arrB.forEach(function (bNumber, index) {
-        arrA.forEach(function (aNumber) {
-            if (typeof arrC[index] === 'undefined') {
-                arrC[index] = [];
-                for (var i = 0; i < index; i++) {
-                    arrC[index].push(0);
-                }
-            }
-            arrC[index].push(multiply(+bNumber, +aNumber));
+function multiply(a, b) {
+    var aArr = a.toString().split('').reverse();
+    var bArr = b.toString().split('').reverse();
+    var stack = [];
+    aArr.forEach(function (aNumber, i) {
+        bArr.forEach(function (bNumber, j) {
+            var m = +aNumber * +bNumber;
+            stack[i + j] = stack[i + j]
+                ? stack[i + j] + m
+                : m;
         });
     });
-    return addMatrixZeros(arrC.reverse());
-}
-function addMatrixZeros(matrix) {
-    var maxRowLength = matrix[0].length;
-    return matrix.map(function (row) {
-        for (var i = row.length; i < maxRowLength; i++) {
-            row[i] = 0;
+    for (var i = 0; i < stack.length; i++) {
+        var units = stack[i] % 10;
+        var tens = Math.floor(stack[i] / 10);
+        stack[i] = units;
+        if (stack[i + 1]) {
+            stack[i + 1] += tens;
         }
-        return row;
-    });
-}
-function slamMatrix(matrix) {
-}
-bigMultiply(a, b);
-/*
-const isOdd = (n: number): boolean => n % 2 === 1;
-
-
-
-const devideEven = (n: number): number => n / 2;
-
-const square = (n: number): number => multiply(n, n);
-
-const squareOrMultiply = (isOdd: boolean, n: number, result: number) => isOdd ? multiply(result, n) : square(result);
-
-const powAsSpread = (n: number, exp: number) => exp === 0 ? 1 : spread(exp).reduceRight((result, item) => squareOrMultiply(item, n, result), n);
-
-const calc = (a: number, n: number, result: number) => {
-  if (isOdd(n)) {
-    return {
-      result: multiply(a, result),
-      n: n - 1
-    };
-  } else {
-    return {
-      a: multiply(a, a),
-      n: devideEven(n)
+        else if (tens != 0) {
+            stack[i + 1] = tens;
+        }
     }
-  }
-};
-
-function pow(a: number, n: number) {
-  let result: number = 1;
-  while (n !== 0) {
+    return stack.reverse().join('');
+}
+console.log(multiply(k, k));
+/*
+function pow(a: string, n: string) {
+  let result: string = '1';
+  while (n !== '0') {
     if (isOdd(n)) {
       result = multiply(a, result);
       n = n - 1;
@@ -76,7 +45,8 @@ function pow(a: number, n: number) {
   }
   return result;
 }
-
+*/
+/*
 function spread(n: number, result: boolean[] = []) {
   if (n === 1) {
     console.log(result.length);
@@ -101,5 +71,4 @@ function exp(a, n) {
     return exp(multiply(a, a), devideEven(n));
   }
 }
-
-powAsSpread(2, 1234567891234560000);*/ 
+*/
