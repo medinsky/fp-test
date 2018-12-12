@@ -1,13 +1,6 @@
 import { numToReversedArr } from "./multiply";
 
 export const subtract = (a: string, b: string): string => {
-  return subtractStrings(a, b);
-  /* return (+a !== Infinity && +b !== Infinity)
-    ? (+a - +b).toString()
-    : subtractStrings(a, b); */
-}
-
-const subtractStrings = (a: string, b: string): string => {
   const { a: first, b: second } = swapDesc(a, b);
   const swapHappened = first === b;
   const firstRArr = numToReversedArr(first);
