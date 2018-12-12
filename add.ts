@@ -1,12 +1,12 @@
 import { swapModDesc, arrToNum, trimZeros } from "./subtract";
 import { numToReversedArr } from "./multiply";
 
-export const add = (a: string, b: string): string => {
+export const addByModule = (a: string, b: string): string => {
   const { a: first, b: second } = swapModDesc(a, b);
   const firstRArr = numToReversedArr(first);
   const secondRArr = numToReversedArr(second);
   const resultRArr: string[] = ['0'];
-  
+
   for (let i = 0; i < firstRArr.length; i++) {
     const sum = +laydownCol(firstRArr[i], secondRArr[i]);
     const units = sum % 10;
