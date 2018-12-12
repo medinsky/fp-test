@@ -1,11 +1,38 @@
+import { numToReversedArr } from "./multiply";
+
 export const subtract = (a: string, b: string): string => {
-  return (+a !== Infinity && +b !== Infinity)
+  return subtractStrings(a, b);
+  /* return (+a !== Infinity && +b !== Infinity)
     ? (+a - +b).toString()
-    : subtractStrings(a, b);
+    : subtractStrings(a, b); */
 }
 
 const subtractStrings = (a: string, b: string): string => {
-  return '';
+  const { a: first, b: second } = swapDesc(a, b);
+  const swapHappened = first === b;
+  const firstRArr = numToReversedArr(first);
+  const secondRArr = numToReversedArr(second);
+
+  const resultRArr: string[] = [];
+  for (let i = 0; i < firstRArr.length; i++) {
+    if (firstRArr[i] < secondRArr[i]) {
+      firstRArr[i + 1] = (+firstRArr[i + 1] - 1).toString();
+      firstRArr[i] = (+firstRArr[i] + 10).toString();
+    }
+    const sum = laydownCol(firstRArr[i], secondRArr[i]);
+    resultRArr.push(sum);
+  }
+
+  const result = resultRArr.reverse().join('');
+  const sign = swapHappened && result !== '0' ? '-' : '';
+
+  return `${sign}${result}`;
+}
+
+const laydownCol = (first: string, second: string): string => {
+  return typeof second === 'undefined'
+    ? first
+    : (+first - +second).toString();
 }
 
 const isSecondBigger = (a: string, b: string): boolean => {
