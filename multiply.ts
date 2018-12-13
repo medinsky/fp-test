@@ -16,7 +16,7 @@ export const multiply = (a: string, b: string): string => {
 
 export const numToReversedArr = (number: string): string[] => numToArray(number).reverse();
 
-const numToArray = (number: string): string[] => number.split('');
+export const numToArray = (number: string): string[] => number.split('');
 
 const multiplyArrays = (aArr: string[], bArr: string[]): number[] => {
     const stack = [];

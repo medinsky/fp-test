@@ -1,6 +1,6 @@
 import { numToReversedArr } from "./multiply";
 
-export const subtractDescByModule = (a: string, b: string): string => {
+export const subtractByModule = (a: string, b: string): string => {
   const { a: first, b: second } = swapModDesc(a, b);
   const swapHappened = first === b;
   const firstRArr = numToReversedArr(first);
@@ -9,7 +9,17 @@ export const subtractDescByModule = (a: string, b: string): string => {
   const resultRArr: string[] = [];
   for (let i = 0; i < firstRArr.length; i++) {
     if (firstRArr[i] < secondRArr[i]) {
-      firstRArr[i + 1] = (+firstRArr[i + 1] - 1).toString();
+      let j = i + 1;
+      while (firstRArr[j] === '0') {
+        j++;
+      }
+      for (let k = i + 1; k <= j; k++) {
+        if (firstRArr[k] === '0') {
+          firstRArr[k] = '9';
+        } else {
+          firstRArr[k] = (+firstRArr[k] - 1).toString();
+        }
+      }
       firstRArr[i] = (+firstRArr[i] + 10).toString();
     }
     const sum = laydownCol(firstRArr[i], secondRArr[i]);
@@ -48,7 +58,7 @@ const laydownCol = (first: string, second: string): string => {
     : (+first - +second).toString();
 }
 
-const isSecondBigger = (a: string, b: string): boolean => {
+export const isSecondBigger = (a: string, b: string): boolean => {
   const aLength: number = a.length;
   const bLength: number = b.length;
 
