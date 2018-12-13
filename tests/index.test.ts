@@ -1,6 +1,6 @@
-import { subtractByModule } from "./subtract";
-import { addByModule } from "./add";
-import { multiply } from "./multiply";
+import { addByModule } from "../actions/add";
+import { multiply } from "../actions/multiply";
+import { subtractByModule } from "../actions/subtract";
 
 it('should subtract values', () => {
   for (let i = 0; i < 1000; i++) {

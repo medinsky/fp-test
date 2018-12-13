@@ -1,5 +1,5 @@
 export const multiply = (a: string, b: string): string => {
-    if (a === '0' || b === '0') {
+    if (a === '0' || b === '0' || a === '' || b === '') {
         return '0';
     } else if (a === '1') {
         return b;
