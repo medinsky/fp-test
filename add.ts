@@ -14,7 +14,7 @@ export const addByModule = (a: string, b: string): string => {
 
     const resultItem = +resultRArr[i] + units;
     const shift = (resultItem >= 10) ? 1 : 0;
-    resultRArr[i] = (resultItem / 10).toString();
+    resultRArr[i] = (resultItem % 10).toString();
     resultRArr[i + 1] = (tens + shift).toString();
   }
 
