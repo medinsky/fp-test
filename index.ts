@@ -20,17 +20,8 @@ console.log(addByModule(k, k));
 console.timeEnd('add');
 */
 
-console.time('add');
-console.log(addByModule(k, a));
-console.timeEnd('add');
-
-console.time('subtract');
-console.log(subtractByModule(k, b));
-console.timeEnd('subtract');
-
-
 console.time('multiply');
-console.log(multiply('', ''));
+console.log(multiply('99', '999'));
 console.timeEnd('multiply');
 
 //console.log(floorDevideBySubstract('402', '2'));

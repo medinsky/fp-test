@@ -4,34 +4,29 @@ import { isSecondBigger, arrToNum, subtractByModule } from "./subtract";
 const isDividentMoreDivider = (divident: string, divider: string): boolean => isSecondBigger(divider, divident);
 
 export const floorDevideBySubstract = (divident: string, divider: string): string => {
-  let counter = 0;
-  let newDivident = subtractByModule(divident, divider);
-  let compareResult = isDividentMoreDivider(newDivident, divider);
+  let counter: number = 0;
+  let newDivident: string = subtractByModule(divident, divider);
+  let compareResult: boolean = isDividentMoreDivider(newDivident, divider);
   while (compareResult) {
     counter++;
-    console.table([newDivident, divider]);
     newDivident = subtractByModule(newDivident, divider);
-    console.log(newDivident);
     compareResult = isDividentMoreDivider(newDivident, divider);
-    console.log(compareResult);  
   }
   return counter.toString();
 }
 
 export const divide = (a: string, b: string): string => {
-  const aArr = numToArray(a);
-  const aLength = aArr.length;
-  const resultStack = [];
-  const dividentBuffer = [];
+  const aArr: string[] = numToArray(a);
+  const aLength: number = aArr.length;
+  const resultStack: string[] = [];
+  const dividentBuffer: string[] = [];
 
-  for (let i = 0; i < aLength; i++) {
-    console.log(dividentBuffer);
+  for (let i: number = 0; i < aLength; i++) {
     dividentBuffer.push(aArr[i]);
-    const divident = dividentBuffer.join('');
+    const divident: string = dividentBuffer.join('');
     if (isSecondBigger(b, divident)) {
 
       for (let j = 0; isSecondBigger(b, divident); j++) {
-        floorDevideBySubstract
       }
       /*
 

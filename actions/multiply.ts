@@ -9,7 +9,7 @@ export const multiply = (a: string, b: string): string => {
 
     const aArr: string[] = numToReversedArr(a);
     const bArr: string[] = numToReversedArr(b);
-    const stack = multiplyArrays(aArr, bArr);
+    const stack: number[] = multiplyArrays(aArr, bArr);
 
     return shiftStack(stack).reverse().join('');
 }
@@ -19,11 +19,11 @@ export const numToReversedArr = (number: string): string[] => numToArray(number)
 export const numToArray = (number: string): string[] => number.split('');
 
 const multiplyArrays = (aArr: string[], bArr: string[]): number[] => {
-    const stack = [];
+    const stack: number[] = [];
 
     aArr.forEach((aNumber: string, i: number) => {
         bArr.forEach((bNumber: string, j: number) => {
-            const m = +aNumber * +bNumber;
+            const m: number = +aNumber * +bNumber;
             stack[i + j] = stack[i + j]
                 ? stack[i + j] + m
                 : m;
@@ -33,12 +33,12 @@ const multiplyArrays = (aArr: string[], bArr: string[]): number[] => {
     return stack;
 }
 
-const shiftStack = (stack: number[]) => {
-    const resultStack = [...stack];
+const shiftStack = (stack: number[]): number[] => {
+    const resultStack: number[] = [...stack];
 
-    for (let i = 0; i < resultStack.length; i++) {
-        const units = resultStack[i] % 10;
-        const tens = Math.floor(resultStack[i] / 10);
+    for (let i: number = 0; i < resultStack.length; i++) {
+        const units: number = resultStack[i] % 10;
+        const tens: number = Math.floor(resultStack[i] / 10);
 
         resultStack[i] = units;
         if (resultStack[i + 1]) {
