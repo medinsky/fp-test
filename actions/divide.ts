@@ -1,50 +1,85 @@
 import { numToArray } from "./multiply";
-import { isSecondBigger, arrToNum, subtractByModule } from "./subtract";
+import { isSecondBigger, arrToNum, subtractByModule, takeMod } from "./subtract";
 
 export const isDividentEqMoreDivider = (divident: string, divider: string): boolean => {
-  const aLength: number = divident.length;
-  const bLength: number = divider.length;
+  const cr = compare(divident, divider);
+  return cr === 1 || cr === 0;
+}
 
-  const paramsEqual = true;
+export const compare = (a: string, b: string): number => {
+
+  const aMoreB: number = 1;
+  const aLessB: number = -1;
+
+  if (a[0] === '-' && b[0] === '-') {
+    const cr: number = compareByModule(a, b);
+    return cr !== 0 ? cr * -1 : cr;
+  } else if (a[0] !== '-' && b[0] !== '-') {
+    return compareByModule(a, b);
+  } else if (a[0] === '-') {
+    return aLessB;
+  } else if (b[0] === '-') {
+    return aMoreB;
+  }
+}
+
+export const compareByModule = (a: string, b: string): number => {
+  const aByModule: string = takeMod(a);
+  const bByModule: string = takeMod(b);
+  const aLength: number = aByModule.length;
+  const bLength: number = bByModule.length;
+  const aEqB: number = 0;
+  const aMoreB: number = 1;
+  const aLessB: number = -1;
 
   if (aLength === bLength) {
     for (let i = 0; i < aLength; i++) {
-      if (divident[i] === divider[i]) {
+      if (aByModule[i] === bByModule[i]) {
         if (i + 1 === aLength) {
-          return paramsEqual;
+          return aEqB;
         }
         continue;
       }
-      return divident[i] > divider[i];
+      return aByModule[i] < bByModule[i] ? aLessB : aMoreB;
     }
   }
 
-  return bLength > aLength;
+  return aLength < bLength ? aLessB : aMoreB;
 }
 
-export const floorDevideBySubstract = (divident: string, divider: string): string => {
+export const floorDevideBySubtract = (divident: string, divider: string): string => {
   if (divider === '0') {
-    return Infinity.toString();
-  } else if (divider === '1') {
+    return divident === '0' ? NaN.toString() : Infinity.toString();
+  } else if (divider === '1' || divident === '0') {
     return divident;
   }
 
   let counter: number = 1;
+  //console.time('subtractByModule');
   let newDivident: string = subtractByModule(divident, divider);
-  console.log(newDivident);
+  //console.timeEnd('subtractByModule');
+
+  if (newDivident === '0') {
+    return counter.toString();
+  } else if (isNegative(newDivident)) {
+    return '0';
+  }
+
   let compareResult: boolean = isDividentEqMoreDivider(newDivident, divider);
-  console.log([newDivident, divider]);
-  console.log(compareResult);
-  
+
   while (compareResult) {
     counter++;
+    const oldDivident = newDivident;
+    console.time(`subtractByModule2 ${oldDivident} - ${divider}`);
     newDivident = subtractByModule(newDivident, divider);
-    console.log(newDivident);
+    console.timeEnd(`subtractByModule2 ${oldDivident} - ${divider}`);
     compareResult = isDividentEqMoreDivider(newDivident, divider);
   }
 
   return counter.toString();
 }
+
+export const isNegative = (number: string): boolean => compare(number, '0') === -1;
 
 export const divide = (a: string, b: string): string => {
   const aArr: string[] = numToArray(a);
