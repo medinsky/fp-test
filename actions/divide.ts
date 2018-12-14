@@ -1,17 +1,48 @@
 import { numToArray } from "./multiply";
 import { isSecondBigger, arrToNum, subtractByModule } from "./subtract";
 
-const isDividentMoreDivider = (divident: string, divider: string): boolean => isSecondBigger(divider, divident);
+export const isDividentEqMoreDivider = (divident: string, divider: string): boolean => {
+  const aLength: number = divident.length;
+  const bLength: number = divider.length;
+
+  const paramsEqual = true;
+
+  if (aLength === bLength) {
+    for (let i = 0; i < aLength; i++) {
+      if (divident[i] === divider[i]) {
+        if (i + 1 === aLength) {
+          return paramsEqual;
+        }
+        continue;
+      }
+      return divident[i] > divider[i];
+    }
+  }
+
+  return bLength > aLength;
+}
 
 export const floorDevideBySubstract = (divident: string, divider: string): string => {
-  let counter: number = 0;
+  if (divider === '0') {
+    return Infinity.toString();
+  } else if (divider === '1') {
+    return divident;
+  }
+
+  let counter: number = 1;
   let newDivident: string = subtractByModule(divident, divider);
-  let compareResult: boolean = isDividentMoreDivider(newDivident, divider);
+  console.log(newDivident);
+  let compareResult: boolean = isDividentEqMoreDivider(newDivident, divider);
+  console.log([newDivident, divider]);
+  console.log(compareResult);
+  
   while (compareResult) {
     counter++;
     newDivident = subtractByModule(newDivident, divider);
-    compareResult = isDividentMoreDivider(newDivident, divider);
+    console.log(newDivident);
+    compareResult = isDividentEqMoreDivider(newDivident, divider);
   }
+
   return counter.toString();
 }
 
