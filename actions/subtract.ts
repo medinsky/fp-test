@@ -3,59 +3,61 @@ import { numToReversedArr } from "./multiply";
 export const subtractByModule = (a: string, b: string): string => {
   const { a: first, b: second }: { a: string, b: string } = swapModDesc(a, b);
   const swapHappened: boolean = first === b;
-  const firstRArr: string[] = numToReversedArr(first);
-  const secondRArr: string[] = numToReversedArr(second);
+  const firstRArr: number[] = numToReversedArr(first);
+  const secondRArr: number[] = numToReversedArr(second);
+  const resultRArr: number[] = [];
 
-  const resultRArr: string[] = [];
   for (let i: number = 0; i < firstRArr.length; i++) {
     if (firstRArr[i] < secondRArr[i]) {
       let j: number = i + 1;
-      while (firstRArr[j] === '0') {
+      while (firstRArr[j] === 0) {
         j++;
       }
       for (let k = i + 1; k <= j; k++) {
-        if (firstRArr[k] === '0') {
-          firstRArr[k] = '9';
+        if (firstRArr[k] === 0) {
+          firstRArr[k] = 9;
         } else {
-          firstRArr[k] = (+firstRArr[k] - 1).toString();
+          firstRArr[k] = firstRArr[k] - 1;
         }
       }
-      firstRArr[i] = (+firstRArr[i] + 10).toString();
+      firstRArr[i] = firstRArr[i] + 10;
     }
-    const sum: string = laydownCol(firstRArr[i], secondRArr[i]);
-    resultRArr.push(sum);
+    const sum: number = laydownCol(firstRArr[i], secondRArr[i]);
+    resultRArr.unshift(sum);
   }
 
-  const resultArr: string[] = [...resultRArr].reverse();
+  const number: string = arrToNum(trimZeros(resultRArr));
 
-  const number: string = arrToNum(trimZeros(resultArr));
-
-  const sign: string = swapHappened && number !== '0' ? '-' : '';
-
-  return `${sign}${number}`;
+  return swapHappened && number !== '0' ? `-${number}` : number;
 }
 
-export const arrToNum = (numberArr: string[]): string => numberArr.join('');
+export const arrToNum = (numberArr: number[]): string => {
+  let numberStr = '';
+  for(let i=0; i<numberArr.length; ++i) {
+    numberStr += numberArr[i];
+  }
+  return numberStr;
+}
 
-export const trimZeros = (numberArr: string[]): string[] => {
+export const trimZeros = (numberArr: number[]): number[] => {
   const firstNotZeroIdx: number = firstNotZeroIndex(numberArr);
   return typeof firstNotZeroIdx === 'undefined'
-    ? ['0']
-    : numberArr.slice(firstNotZeroIdx);
+    ? [0]
+    : firstNotZeroIdx === 0 ? numberArr : numberArr.slice(firstNotZeroIdx);
 }
 
-const firstNotZeroIndex = (numberArr: string[]): number => {
+const firstNotZeroIndex = (numberArr: number[]): number => {
   for (let i: number = 0; i < numberArr.length; i++) {
-    if (numberArr[i] !== '0') {
+    if (numberArr[i] !== 0) {
       return i;
     }
   }
 }
 
-const laydownCol = (first: string, second: string): string => {
+const laydownCol = (first: number, second: number): number => {
   return typeof second === 'undefined'
     ? first
-    : (+first - +second).toString();
+    : first - second;
 }
 
 export const isSecondBigger = (a: string, b: string): boolean => {

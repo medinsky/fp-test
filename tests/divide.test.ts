@@ -1,4 +1,5 @@
 import { floorDevideBySubtract, compare, isDividentEqMoreDivider } from "../actions/divide";
+import { divElements } from "../actions/divideStream";
 
 it('should check if is divident >= divider', () => {
   for (let i = -100; i < 100; i++) {
@@ -9,9 +10,9 @@ it('should check if is divident >= divider', () => {
 });
 
 it('should floor divide by subtract divident on divider', () => {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 10; j >= 0; j--) {
-      expect(floorDevideBySubtract(i.toString(), j.toString())).toBe(Math.floor(i / j).toString());
+  for (let i = 1; i < 100; i++) {
+    for (let j = 100; j >= 1; j--) {
+      expect(divElements(i.toString(), j.toString())).toBe(Math.floor(i / j).toString());
     }
   }
 });

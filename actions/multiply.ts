@@ -7,23 +7,23 @@ export const multiply = (a: string, b: string): string => {
         return a;
     }
 
-    const aArr: string[] = numToReversedArr(a);
-    const bArr: string[] = numToReversedArr(b);
+    const aArr: number[] = numToReversedArr(a);
+    const bArr: number[] = numToReversedArr(b);
     const stack: number[] = multiplyArrays(aArr, bArr);
 
     return shiftStack(stack).reverse().join('');
 }
 
-export const numToReversedArr = (number: string): string[] => numToArray(number).reverse();
+export const numToReversedArr = (number: string): number[] => numToArray(number).reverse();
 
-export const numToArray = (number: string): string[] => number.split('');
+export const numToArray = (number: string): number[] => number.split('').map((number: string) => +number);
 
-const multiplyArrays = (aArr: string[], bArr: string[]): number[] => {
+const multiplyArrays = (aArr: number[], bArr: number[]): number[] => {
     const stack: number[] = [];
 
-    aArr.forEach((aNumber: string, i: number) => {
-        bArr.forEach((bNumber: string, j: number) => {
-            const m: number = +aNumber * +bNumber;
+    aArr.forEach((aNumber: number, i: number) => {
+        bArr.forEach((bNumber: number, j: number) => {
+            const m: number = aNumber * bNumber;
             stack[i + j] = stack[i + j]
                 ? stack[i + j] + m
                 : m;

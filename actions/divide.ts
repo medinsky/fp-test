@@ -82,10 +82,10 @@ export const floorDevideBySubtract = (divident: string, divider: string): string
 export const isNegative = (number: string): boolean => compare(number, '0') === -1;
 
 export const divide = (a: string, b: string): string => {
-  const aArr: string[] = numToArray(a);
+  const aArr: number[] = numToArray(a);
   const aLength: number = aArr.length;
   const resultStack: string[] = [];
-  const dividentBuffer: string[] = [];
+  const dividentBuffer: number[] = [];
 
   for (let i: number = 0; i < aLength; i++) {
     dividentBuffer.push(aArr[i]);
@@ -113,7 +113,7 @@ export const divide = (a: string, b: string): string => {
 
   console.log(`Result stack: ${JSON.stringify(resultStack)}`);
 
-  if (dividentBuffer.length > 0 && dividentBuffer[0] !== '0') {
+  if (dividentBuffer.length > 0 && dividentBuffer[0] !== 0) {
     console.log(`Остаток: ${dividentBuffer.join('')}`);
   } else {
     console.log(`RESULT: ${resultStack.join('')}`);
