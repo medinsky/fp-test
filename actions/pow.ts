@@ -13,11 +13,8 @@ const powMemoized = () => {
     const hash = `${a}^${n}`;
 
     if (hash in cache) {
-      //console.log('Fetching from cache');
       return cache[hash];
     } else {
-      //console.log('Calculating result');
-      //console.log(`params: ${hash}`);
       let result: string = '1';
 
       while (n !== '0') {
