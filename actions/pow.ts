@@ -1,4 +1,4 @@
-import { divElements } from './divideStream';
+import { divElements } from './divide';
 import { subtractByModule } from './subtract';
 import { multiply } from './multiply';
 

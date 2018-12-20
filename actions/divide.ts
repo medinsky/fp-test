@@ -1,123 +1,104 @@
-import { numToArray } from "./multiply";
-import { isSecondBigger, arrToNum, subtractByModule, takeMod } from "./subtract";
+import {Stream} from 'stream';
 
-export const isDividentEqMoreDivider = (divident: string, divider: string): boolean => {
-  const cr = compare(divident, divider);
-  return cr === 1 || cr === 0;
-}
-
-export const compare = (a: string, b: string): number => {
-
-  const aMoreB: number = 1;
-  const aLessB: number = -1;
-
-  if (a[0] === '-' && b[0] === '-') {
-    const cr: number = compareByModule(a, b);
-    return cr !== 0 ? cr * -1 : cr;
-  } else if (a[0] !== '-' && b[0] !== '-') {
-    return compareByModule(a, b);
-  } else if (a[0] === '-') {
-    return aLessB;
-  } else if (b[0] === '-') {
-    return aMoreB;
+export const divide = (firstValue: string, secondValue: string): string => {
+  //stream examples
+  const readableStream = new Stream.Readable();
+  let isRemoveZero: boolean = false;
+  let count: number = 0;
+  let isFirst: boolean = true;
+  let lengthOutput = firstValue.length - secondValue.length === 0 ? 2 : (firstValue.length - secondValue.length + 2);
+  if (secondValue === '1') {
+    return firstValue;
   }
-}
-
-export const compareByModule = (a: string, b: string): number => {
-  const aByModule: string = takeMod(a);
-  const bByModule: string = takeMod(b);
-  const aLength: number = aByModule.length;
-  const bLength: number = bByModule.length;
-  const aEqB: number = 0;
-  const aMoreB: number = 1;
-  const aLessB: number = -1;
-
-  if (aLength === bLength) {
-    for (let i = 0; i < aLength; i++) {
-      if (aByModule[i] === bByModule[i]) {
-        if (i + 1 === aLength) {
-          return aEqB;
-        }
-        continue;
-      }
-      return aByModule[i] < bByModule[i] ? aLessB : aMoreB;
-    }
+  if (firstValue === secondValue) {
+    return '1';
   }
-
-  return aLength < bLength ? aLessB : aMoreB;
-}
-
-export const floorDevideBySubtract = (divident: string, divider: string): string => {
-  if (divider === '0') {
-    return divident === '0' ? NaN.toString() : Infinity.toString();
-  } else if (divider === '1' || divident === '0') {
-    return divident;
-  }
-
-  let counter: number = 1;
-  //console.time('subtractByModule');
-  let newDivident: string = subtractByModule(divident, divider);
-  //console.timeEnd('subtractByModule');
-
-  if (newDivident === '0') {
-    return counter.toString();
-  } else if (isNegative(newDivident)) {
+  if (firstValue.length < secondValue.length) {
     return '0';
   }
-
-  let compareResult: boolean = isDividentEqMoreDivider(newDivident, divider);
-
-  while (compareResult) {
-    counter++;
-    const oldDivident = newDivident;
-    console.time(`subtractByModule2 ${oldDivident} - ${divider}`);
-    newDivident = subtractByModule(newDivident, divider);
-    console.timeEnd(`subtractByModule2 ${oldDivident} - ${divider}`);
-    compareResult = isDividentEqMoreDivider(newDivident, divider);
+  if (findBiggestValueString(secondValue, firstValue)) {
+    lengthOutput--;
   }
-
-  return counter.toString();
-}
-
-export const isNegative = (number: string): boolean => compare(number, '0') === -1;
-
-export const divide = (a: string, b: string): string => {
-  const aArr: number[] = numToArray(a);
-  const aLength: number = aArr.length;
-  const resultStack: string[] = [];
-  const dividentBuffer: number[] = [];
-
-  for (let i: number = 0; i < aLength; i++) {
-    dividentBuffer.push(aArr[i]);
-    const divident: string = dividentBuffer.join('');
-    if (isSecondBigger(b, divident)) {
-
-      for (let j = 0; isSecondBigger(b, divident); j++) {
+  do {
+    readableStream.push(count.toString());
+    count = 0;
+    lengthOutput--;
+    if (isRemoveZero) {
+      secondValue = removeLeadingZero(secondValue);
+      isRemoveZero = false;
+    }
+    if (lengthOutput !== 0 && firstValue[0] !== '0' && findBiggestValueString(secondValue, firstValue) && firstValue.length > secondValue.length) {
+      if (!isFirst) {
+        readableStream.push(count.toString());
+        lengthOutput--;
       }
-      /*
+      secondValue = addLeadingZero(secondValue);
+      isRemoveZero = true;
+    }
+    while (findBiggestValueString(firstValue, secondValue)) {
+      firstValue = subValues(firstValue, secondValue);
+      count++;
+    }
+    if (firstValue[0] !== '0') {
+      isFirst = true;
+    } else {
+      isFirst = isRemoveZero;
+      firstValue = removeLeadingZero(firstValue);
+    }
+    if (firstValue[0] === '0' && isRemoveZero) {
+      firstValue = removeLeadingZero(firstValue);
+      isFirst = false;
+    }
+    
+  } while (lengthOutput > 0);
+  readableStream.push(null);
+  let stream = readableStream.read().toString();
+  if (stream[0] === '0' && stream.length > 1) {
+    stream = removeLeadingZero(stream);
+  }
+  return stream !== null ? stream.toString() : '0';
+};
 
-      if (isSecondBigger(b, subtractByModule(divident, b))) {
-        const result = Math.floor(+divident / +b);
-        const backwardMultiply = result * +b;
-        const difference = +divident - backwardMultiply;
-        dividentBuffer.length = 0;
-        dividentBuffer.push(difference.toString());
-        resultStack.push(result);
-      } else {
-        dividentBuffer.length = 0;
-      }*/
+const findBiggestValueString = (firstValue: string, secondValue: string): boolean => {
+  for (let i = 0; i < firstValue.length; i++) {
+    if (firstValue[i] === secondValue[i]) {
+      continue;
+    }
+    if (firstValue[i] > secondValue[i]) {
+      return true;
+    }
+    if (firstValue[i] < secondValue[i]) {
+      return false;
     }
   }
+  return firstValue.length >= secondValue.length;
+  
+};
+const removeLeadingZero = (value: string) => value.substr(1, value.length - 1);
+const addLeadingZero = (value: string) => {
+  return "0" + value;
+};
 
-  console.log(`Divident: ${JSON.stringify(dividentBuffer)}`);
+const subFn = (value: string, index: number, subValue: number, flag: boolean): string =>
+  value.substr(0, index)
+  + (flag ? (Number(value[index]) + 10 - subValue) : (Number(value[index]) - subValue))
+  + value.substr(index + 1, value.length - index - 1);
 
-  console.log(`Result stack: ${JSON.stringify(resultStack)}`);
-
-  if (dividentBuffer.length > 0 && dividentBuffer[0] !== 0) {
-    console.log(`Остаток: ${dividentBuffer.join('')}`);
-  } else {
-    console.log(`RESULT: ${resultStack.join('')}`);
+export const subValues = (firstValue: string, secondValue: string): string => {
+  let subOne: boolean = false;
+  let addTen: boolean = false;
+  for (let i = secondValue.length - 1; i >= 0; i--) {
+    const secondNumber: number = Number(secondValue[i]);
+    if (addTen) {
+      subOne = true;
+      addTen = !addTen;
+    }
+    if ((subOne ? Number(firstValue[i]) - 1 : Number(firstValue[i])) < secondNumber) {
+      addTen = true;
+      
+    }
+    firstValue = subFn(firstValue, i, subOne ? secondNumber + 1 : secondNumber, addTen);
+    subOne = false;
   }
-
-  return '';
-}
+  return firstValue;
+};

@@ -1,5 +1,5 @@
 import { floorDevideBySubtract, compare, isDividentEqMoreDivider } from "../actions/divide";
-import { divElements } from "../actions/divideStream";
+import { divElements } from "../actions/divide";
 
 it('should check if is divident >= divider', () => {
   for (let i = -100; i < 100; i++) {
