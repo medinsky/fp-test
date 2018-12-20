@@ -18,7 +18,7 @@ for (let y: string = k; parseInt(subtractByModule(y, k))<=17; y = addByModule(y,
 console.timeEnd('tapper');
 
 matrix.forEach(m => {
-  console.log(m.reduce((acc, cur) => `${acc}${cur}`));
+  console.log(m.reduce((acc, cur) => `${acc}${cur}`).split('').reverse().join(''));
 });
 
 console.log(`Matrix length: ${matrix.length}`);
