@@ -11,10 +11,14 @@ const matrix: string[][] = [];
 for (let y: string = k; parseInt(subtractByModule(y, k))<=17; y = addByModule(y, '1')) {
   matrix.push([]);
   for(let x: number = 0; x <= 106; ++x) {
-    matrix[i].push(halfCompareTapper(x.toString(), y) ? 'x' : 'o');
+    matrix[i].push(halfCompareTapper(x.toString(), y) ? '*' : ' ');
   }
   i++;
 }
 console.timeEnd('tapper');
-console.table(matrix);
+
+matrix.forEach(m => {
+  console.log(m.reduce((acc, cur) => `${acc}${cur}`));
+});
+
 console.log(`Matrix length: ${matrix.length}`);
