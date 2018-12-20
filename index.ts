@@ -15,3 +15,4 @@ for (let y: string = k; parseInt(subtractByModule(y, k))<=17; y = addByModule(y,
 }
 console.timeEnd('tapper');
 console.table(matrix);
+console.log(`Matrix length: ${matrix.length}`);
