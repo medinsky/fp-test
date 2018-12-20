@@ -8,7 +8,7 @@ const k = '960939379918958884971672962127852754715004339660129306651505519271702
 console.time('tapper');
 let i: number = 0;
 const matrix: string[][] = [];
-for (let y: string = k; parseInt(subtractByModule(y, k))<=17; y = addByModule(y, '1')) {
+for (let y: string = k; parseInt(subtractByModule(y, k))<17; y = addByModule(y, '1')) {
   matrix.push([]);
   for(let x: number = 0; x <= 106; ++x) {
     matrix[i].push(halfCompareTapper(x.toString(), y) ? '*' : ' ');
