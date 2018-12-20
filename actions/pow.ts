@@ -1,4 +1,4 @@
-import { divElements } from './divide';
+import { divide } from './divide';
 import { subtractByModule } from './subtract';
 import { multiply } from './multiply';
 
@@ -23,7 +23,7 @@ const powMemoized = () => {
           n = subtractByModule(n, '1');
         } else {
           a = multiply(a, a);
-          n = divElements(n, '2');
+          n = divide(n, '2');
         }
       }
 
@@ -44,7 +44,7 @@ export const oldpow = (a: string, n: string) => {
       n = subtractByModule(n, '1');
     } else {
       a = multiply(a, a);
-      n = divElements(n, '2');
+      n = divide(n, '2');
     }
   }
 
