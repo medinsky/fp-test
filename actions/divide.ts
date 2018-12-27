@@ -36,7 +36,7 @@ export const divide = (firstValue: string, secondValue: string): string => {
       isRemoveZero = true;
     }
     while (findBiggestValueString(firstValue, secondValue)) {
-      firstValue = subValues(firstValue, secondValue);
+      firstValue = subtract(firstValue, secondValue);
       count++;
     }
     if (firstValue[0] !== '0') {
@@ -59,24 +59,47 @@ export const divide = (firstValue: string, secondValue: string): string => {
   return stream !== null ? stream.toString() : '0';
 };
 
-const findBiggestValueString = (firstValue: string, secondValue: string): boolean => {
-  for (let i = 0; i < firstValue.length; i++) {
-    if (firstValue[i] === secondValue[i]) {
-      continue;
-    }
-    if (firstValue[i] > secondValue[i]) {
-      return true;
-    }
-    if (firstValue[i] < secondValue[i]) {
-      return false;
-    }
-  }
-  return firstValue.length >= secondValue.length;
-  
-};
-const removeLeadingZero = (value: string) => value.substr(1, value.length - 1);
+
 const addLeadingZero = (value: string) => {
   return "0" + value;
+};
+
+export const subtract = (firstValueMain: string, secondValueMain: string): string => {
+  let subOne: boolean = false;
+  let addTen: boolean = false;
+  const isMinus = findBiggestValueString(secondValueMain,firstValueMain);
+  let firstValue = isMinus? secondValueMain : firstValueMain;
+  let secondValue = isMinus? firstValueMain : secondValueMain;
+  for (let i = 1; i <= secondValue.length; i++) {
+    const secondNumber: number = Number(secondValue[secondValue.length - i]);
+    if (addTen) {
+      subOne = true;
+      addTen = !addTen;
+    }
+    if ((subOne ? Number(firstValue[firstValue.length  - i]) - 1 : Number(firstValue[firstValue.length  - i])) < secondNumber) {
+      addTen = true;
+      
+    }
+    firstValue = subFn(firstValue, firstValue.length  - i, subOne ? secondNumber + 1 : secondNumber, addTen);
+    subOne = false;
+  }
+  while(firstValue[0] === '' && firstValue.length > 1){
+    firstValue = removeLeadingZero(firstValue);
+  }
+  let i = secondValue.length+1;
+  while(addTen){
+    if(Number(firstValue[firstValue.length  - i]) === 0){
+      firstValue = subFn(firstValue, firstValue.length  - i, 1, addTen);
+      i++;
+      continue;
+    }
+    firstValue = subFn(firstValue,firstValue.length-i,1,false);
+    addTen = false;
+  }
+  while(firstValue[0] === '0' && firstValue.length > 1){
+    firstValue = removeLeadingZero(firstValue);
+  }
+  return isMinus ? '-'+firstValue: firstValue;
 };
 
 const subFn = (value: string, index: number, subValue: number, flag: boolean): string =>
@@ -84,21 +107,24 @@ const subFn = (value: string, index: number, subValue: number, flag: boolean): s
   + (flag ? (Number(value[index]) + 10 - subValue) : (Number(value[index]) - subValue))
   + value.substr(index + 1, value.length - index - 1);
 
-export const subValues = (firstValue: string, secondValue: string): string => {
-  let subOne: boolean = false;
-  let addTen: boolean = false;
-  for (let i = secondValue.length - 1; i >= 0; i--) {
-    const secondNumber: number = Number(secondValue[i]);
-    if (addTen) {
-      subOne = true;
-      addTen = !addTen;
+export const findBiggestValueString = (firstValue: string, secondValue: string): boolean => {
+  if (firstValue.length === secondValue.length) {
+    for (let i = 0; i < firstValue.length; i++) {
+      if (firstValue[i] === secondValue[i]) {
+        continue;
+      }
+      if (firstValue[i] > secondValue[i]) {
+        return true;
+      }
+      if (firstValue[i] < secondValue[i]) {
+        return false;
+      }
     }
-    if ((subOne ? Number(firstValue[i]) - 1 : Number(firstValue[i])) < secondNumber) {
-      addTen = true;
-      
-    }
-    firstValue = subFn(firstValue, i, subOne ? secondNumber + 1 : secondNumber, addTen);
-    subOne = false;
+  } else {
+    return firstValue.length > secondValue.length;
   }
-  return firstValue;
+  return false;
+  
 };
+
+const removeLeadingZero = (value: string) => value.substr(1, value.length - 1);

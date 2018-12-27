@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es2017",
+      "es2015"
+    ],
+    "sourceMap": true,
+    "outDir": "./",
+    "removeComments": true,
+    "moduleResolution": "node"
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "**/__mocks__/*",
+    "**/__tests__/*"
+  ],
+  "files": [
+    "index.ts",
+    "bench.ts"
+  ]
+}

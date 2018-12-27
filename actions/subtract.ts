@@ -1,12 +1,12 @@
-import { numToReversedArr } from "./multiply";
+import {numToArray, numToReversedArr} from "./multiply";
 
 export const subtractByModule = (a: string, b: string): string => {
-  const { a: first, b: second }: { a: string, b: string } = swapModDesc(a, b);
+  const {a: first, b: second}: { a: string, b: string } = swapModDesc(a, b);
   const swapHappened: boolean = first === b;
   const firstRArr: number[] = numToReversedArr(first);
   const secondRArr: number[] = numToReversedArr(second);
   const resultRArr: number[] = [];
-
+  
   for (let i: number = 0; i < firstRArr.length; i++) {
     if (firstRArr[i] < secondRArr[i]) {
       let j: number = i + 1;
@@ -25,15 +25,66 @@ export const subtractByModule = (a: string, b: string): string => {
     const sum: number = laydownCol(firstRArr[i], secondRArr[i]);
     resultRArr.unshift(sum);
   }
-
+  
   const number: string = arrToNum(trimZeros(resultRArr));
-
+  
   return swapHappened && number !== '0' ? `-${number}` : number;
-}
+};
+
+export const max = (first: number, second: number): number => {
+  return first > second ? first : second;
+};
+
+export const subtract = (first: string, second: string) => {
+  const L: number = max(first.length, second.length);
+  const M: number = 10;
+  let c: string = '';
+  let {a, b}: { a: string, b: string } = swapModDesc(first, second);
+  let i: number = 0;
+  let cf: number = 0;
+  
+  while (i < L) {
+    let ai = toDigit(a.charAt(a.length - i - 1));
+    let bi = toDigit(b.charAt(b.length - i - 1));
+    
+    let t = bi + cf;
+    if (ai < t) {
+      c = `${fromDigit(M + ai - t)}${c}`;
+      cf = 1;
+    } else {
+      c = `${fromDigit(ai - t)}${c}`;
+      cf = 0;
+    }
+    ++i;
+  }
+  
+  if (c === '') {
+    c = '0';
+  }
+  
+  c = trimLongNumber(c);
+  
+  return a === first ? c : `-${c}`;
+};
+
+const toDigit = (unit) => unit !== '' && '0' <= unit && unit <= '9'
+  ? unit.charCodeAt(0) - "0".charCodeAt(0)
+  : 0;
+
+const fromDigit = (unit) => String.fromCharCode("0".charCodeAt(0) + unit);
+
+const trimLongNumber = (unit: string) => {
+  let resultNumber = unit;
+  while (1 < resultNumber.length && resultNumber.charAt(0) === '0') {
+    resultNumber = resultNumber.substr(1, resultNumber.length - 1);
+  }
+  return resultNumber;
+};
+
 
 export const arrToNum = (numberArr: number[]): string => {
   let numberStr = '';
-  for(let i=0; i<numberArr.length; ++i) {
+  for (let i = 0; i < numberArr.length; ++i) {
     numberStr += numberArr[i];
   }
   return numberStr;
@@ -63,7 +114,7 @@ const laydownCol = (first: number, second: number): number => {
 export const isSecondBigger = (a: string, b: string): boolean => {
   const aLength: number = a.length;
   const bLength: number = b.length;
-
+  
   if (aLength === bLength) {
     for (let i = 0; i < aLength; i++) {
       if (a[i] === b[i]) {
@@ -72,7 +123,7 @@ export const isSecondBigger = (a: string, b: string): boolean => {
       return b[i] > a[i];
     }
   }
-
+  
   return bLength > aLength;
 };
 
